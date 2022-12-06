@@ -1,6 +1,9 @@
 <!--Menu-->
 <ul>
 	<li><a href = index.php>Home</a></li>
+ <!--Menu-->
+<ul>
+	<li><a href = index.php>Home</a></li>
    <li><a href = table1.php>About Climate Change</a></li>
    <li><a href = table2.php>Locations</a></li>
    <!--li><a href = table2.php>User</a></li--> <!--until user profile is added -->
@@ -18,34 +21,21 @@
 <!--Locations-->
 <h1 align = "center">Locations</h1>
 
-<p align = "center">Detroit Weather:</p>
-<p> Average Rain: 2.23 in </p>
-<p> Average Temp: 61.2 F </p>
-<p> Air Quality: 64 </p>
-<p> Disaster Risk: Tornado </p>
-<p> Drought Index: 1 </p>
-<?php
-$servername = "localhost";
-$username = "username";
-$password = "YES";
-$dbname = "mcs2513";
-
-// Create connection
 <?php
 // Check existence of id parameter before processing further
-if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
+if(isset($_GET["AvgRain"]) && !empty(trim($_GET["AvgRain"]))){
     // Include config file
     require_once "config.php";
     
     // Prepare a select statement
-    $sql = "SELECT * FROM cities WHERE id = ?";
+    $sql = "SELECT * FROM `cities` WHERE AirQuality = 64 ";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        mysqli_stmt_bind_param($stmt, "AirQuality", $param_id);
         
         // Set parameters
-        $param_id = trim($_GET["id"]);
+        $param_id = trim($_GET["AirQuality"]);
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
@@ -56,12 +46,12 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 
                 // Retrieve individual field value
-                $name = $row["name"];
-                $address = $row["address"];
-                $salary = $row["salary"];
-				$salary = $row["salary"];
-				$salary = $row["salary"];
-				$salary = $row["salary"];
+                $Cities = $row["Cities"];
+                $AvgRain = $row["AvgRain"];
+                $AvgTemp = $row["AvgTemp"];
+				$AirQuality = $row["AirQuality"];
+				$DisasterRisk = $row["DisasterRisk"];
+				$DroughtIndex = $row["DroughtIndex"];
             } else{
 				
             }
@@ -80,3 +70,13 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     // URL doesn't contain id parameter. Redirect to error page
 }
 ?>
+
+<p> City: <?php echo $row["Cities"]; ?> Weather:</p>
+<p> Average Rain:<?php echo $row["AvgRain"]; ?></p>
+<p> Average Temp: <?php echo $row["AvgTemp"]; ?></p>
+<p> Air Quality: <?php echo $row["AirQuality"]; ?></p>
+<p> Disaster Risk: <?php echo $row["DisasterRisk"]; ?></p>
+<p> Drought Index: <?php echo $row["DroughtIndex"]; ?></p>
+                       
+
+
