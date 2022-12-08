@@ -3,7 +3,7 @@
    <li><a href = index.php>Home</a></li>
    <li><a href = table1.php>About Climate Change</a></li>
    <li><a href = table2.php>Locations</a></li>
-   <!--li><a href = table2.php>User Page when finished/a></li-->
+   <!--li><a href = table2.php> User Page when finished/a></li-->
 </ul>
 
 <h1 align = "center">Locations</h1>
@@ -19,28 +19,58 @@
 			
         </form>  
 <?php
-$servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "mcs2513";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+$row = NULL;
+// Check existence of id parameter before processing further
+if(isset($_GET["AirQuality"]) && !empty(trim($_GET["AirQuality"]))){
+    // Include config file
+    require_once "config.php";
+    
+    // Prepare a select statement
+    $sql = 'SELECT * FROM cities WHERE AirQuality 64';
+    
+    if($stmt = mysqli_prepare($link, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "AirQuality", $param_id);
+        
+        // Set parameters
+        $param_id = trim($_GET["AirQuality"]);
+        
+        // Attempt to execute the prepared statement
+        if(mysqli_stmt_execute($stmt)){
+            $result = mysqli_stmt_get_result($stmt);
+    
+            if(mysqli_num_rows($result) == 1){
+                /* Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop */
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                
+                // Retrieve individual field value
+                $Cities = $row["Cities"];
+                $AvgRain = $row["AvgRain"];
+                $AvgTemp = $row["AvgTemp"];
+				$AirQuality = $row["AirQuality"];
+				$DisasterRisk = $row["DisasterRisk"];
+				$DroughtIndex = $row["DroughtIndex"];
+            } else{
+				
+            }
+            
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+    }
+     
+    // Close statement
+    mysqli_stmt_close($stmt);
+    
+    // Close connection
+    mysqli_close($link);
 }
-
-$sql = "SELECT id, firstname, lastname FROM MyGuests";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-  }
-} else {
-  echo "0 results";
-}
-$conn->close();
 ?>
+
+<p align = "center"> City: <?php echo $row["Cities"]; ?> Weather:</p>
+<p align = "center"> Average Rain:<?php echo $row["AvgRain"]; ?></p>
+<p align = "center"> Average Temp: <?php echo $row["AvgTemp"]; ?></p>
+<p align = "center"> Air Quality: <?php echo $row["AirQuality"]; ?></p>
+<p align = "center"> Disaster Risk: <?php echo $row["DisasterRisk"]; ?></p>
+<p align = "center"> Drought Index: <?php echo $row["DroughtIndex"]; ?></p>
