@@ -1,9 +1,6 @@
 <!--Menu-->
 <ul>
 	<li><a href = index.php>Home</a></li>
- <!--Menu-->
-<ul>
-	<li><a href = index.php>Home</a></li>
    <li><a href = table1.php>About Climate Change</a></li>
    <li><a href = table2.php>Locations</a></li>
    <!--li><a href = table2.php>User</a></li--> <!--until user profile is added -->
@@ -22,13 +19,15 @@
 <h1 align = "center">Locations</h1>
 
 <?php
+
+$row = NULL;
 // Check existence of id parameter before processing further
-if(isset($_GET["AvgRain"]) && !empty(trim($_GET["AvgRain"]))){
+if(isset($_GET["AirQuality"]) && !empty(trim($_GET["AirQuality"]))){
     // Include config file
     require_once "config.php";
     
     // Prepare a select statement
-    $sql = "SELECT * FROM `cities` WHERE AirQuality = 64 ";
+    $sql = 'SELECT * FROM cities WHERE AirQuality 64';
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
@@ -66,18 +65,12 @@ if(isset($_GET["AvgRain"]) && !empty(trim($_GET["AvgRain"]))){
     
     // Close connection
     mysqli_close($link);
-} else{
-    // URL doesn't contain id parameter. Redirect to error page
 }
 ?>
 
-
-<p> City: <?php echo $row["Cities"]; ?> Weather:</p>
-<p> Average Rain:<?php echo $row["AvgRain"]; ?></p>
-<p> Average Temp: <?php echo $row["AvgTemp"]; ?></p>
-<p> Air Quality: <?php echo $row["AirQuality"]; ?></p>
-<p> Disaster Risk: <?php echo $row["DisasterRisk"]; ?></p>
-<p> Drought Index: <?php echo $row["DroughtIndex"]; ?></p>
-                       
-
-
+<p align = "center"> City: <?php echo $row["Cities"]; ?> Weather:</p>
+<p align = "center"> Average Rain:<?php echo $row["AvgRain"]; ?></p>
+<p align = "center"> Average Temp: <?php echo $row["AvgTemp"]; ?></p>
+<p align = "center"> Air Quality: <?php echo $row["AirQuality"]; ?></p>
+<p align = "center"> Disaster Risk: <?php echo $row["DisasterRisk"]; ?></p>
+<p align = "center"> Drought Index: <?php echo $row["DroughtIndex"]; ?></p>                      
