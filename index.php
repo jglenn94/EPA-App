@@ -71,6 +71,7 @@ if(isset($_GET["AvgRain"]) && !empty(trim($_GET["AvgRain"]))){
 }
 ?>
 
+
 <p> City: <?php echo $row["Cities"]; ?> Weather:</p>
 <p> Average Rain:<?php echo $row["AvgRain"]; ?></p>
 <p> Average Temp: <?php echo $row["AvgTemp"]; ?></p>
