@@ -7,20 +7,27 @@
 </ul>
 
 <h1 align = "center">Locations</h1>
-        <form id="form1" name="form1" method="post" action="<?php echo $PHP_SELF; ?>" align = "center">  
-            Choose one:  
-            <select Emp Name='NEW'>  
-            <option value="">--- Select ---</option>
-			<option value="">Detroit</option> 
-			<option value="">New York</option> 
-			<option value="">Los Angles</option> 
-            </select> 
-			
-			
-        </form>  
-<?php
 
-$row = NULL;
+<table style="width:100%">
+  <tr>
+    <th>Cities</th>
+    <th>Average Rain</th>
+    <th>Air Quality</th>
+	<th>Disater Risk</th>
+    <th>Drought Index</th>
+  </tr>
+  <tr>
+    <td><?php echo $row["Cities"]; ?></td>
+    <td><?php echo $row["AvgRain"]; ?></td>
+    <td><?php echo $row["AvgTemp"]; ?></td>
+	<td><?php echo $row["AirQuality"]; ?></td>
+    <td><?php echo $row["DisasterRisk"]; ?></td>
+	<td><?php echo $row["DroughtIndex"]; ?></td>
+	  
+  </tr>
+</table>
+
+<?php
 // Check existence of id parameter before processing further
 if(isset($_GET["AirQuality"]) && !empty(trim($_GET["AirQuality"]))){
     // Include config file
@@ -67,10 +74,3 @@ if(isset($_GET["AirQuality"]) && !empty(trim($_GET["AirQuality"]))){
     mysqli_close($link);
 }
 ?>
-
-<p align = "center"> City: <?php echo $row["Cities"]; ?> Weather:</p>
-<p align = "center"> Average Rain:<?php echo $row["AvgRain"]; ?></p>
-<p align = "center"> Average Temp: <?php echo $row["AvgTemp"]; ?></p>
-<p align = "center"> Air Quality: <?php echo $row["AirQuality"]; ?></p>
-<p align = "center"> Disaster Risk: <?php echo $row["DisasterRisk"]; ?></p>
-<p align = "center"> Drought Index: <?php echo $row["DroughtIndex"]; ?></p>
